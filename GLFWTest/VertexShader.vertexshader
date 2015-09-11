@@ -1,19 +1,35 @@
 #version 330 core
 
+#define VERTEX_POSITION 0
+#define TEXTURE_DATA 1
+
+layout(location = VERTEX_POSITION) in vec3 vertexPosition_modelspace;
+
+layout(location = TEXTURE_DATA)
+in vec2 vertexUV;
+
+uniform mat4 MVP;
+
+out vec2 UV;
+
 // Input vertex data
-layout(location = 0) in vec3 vertexPosition_modelspace;
-layout(location = 1) in vec3 vertexColor;
+//layout(location = 0) in vec3 vertexPosition_modelspace;
+//layout(location = 1) in vec3 vertexColor;
 
 // Output data ; will be interpolated for each fragment.
-out vec3 fragmentColor;
+//out vec3 fragmentColor;
 
-void main(){	
-	gl_Position.xyz =  vertexPosition_modelspace;
+void main(){
 
-	gl_Position.x = gl_Position.x + (0.25*sin(100.0*pow(gl_Position.y, 2.0))); // Grafiikkamoottori ohjelmointi EX 22
+	gl_Position = MVP * vec4(vertexPosition_modelspace, 1);
+	UV = vertexUV;
+	
+	//gl_Position.xyz =  vertexPosition_modelspace;
 
-	gl_Position.w = 1.0; //position
+	//gl_Position.x = gl_Position.x + (0.25*sin(100.0*pow(gl_Position.y, 2.0))); // Grafiikkamoottori ohjelmointi EX 22
+
+	//gl_Position.w = 1.0; //position
 
 
-	fragmentColor = vertexColor;
+	//fragmentColor = vertexColor;
 }

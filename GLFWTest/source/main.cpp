@@ -11,6 +11,8 @@
 #include <glm/gtx/transform.hpp>
 #include <iostream>
 
+#include "renderer.h"
+
 
 GLFWwindow* window;
 GLuint programID;
@@ -20,6 +22,7 @@ GLuint colorbuffer;
 
 
 void Render(void) {
+
   glClear( GL_COLOR_BUFFER_BIT );
   glUseProgram(programID);
   glEnableVertexAttribArray(0);
@@ -48,6 +51,9 @@ void Render(void) {
   glDisableVertexAttribArray(1);
   glfwSwapBuffers(window);
 }
+
+
+
 void Init(void) {
   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -77,6 +83,9 @@ void Init(void) {
   glBufferData(GL_ARRAY_BUFFER,
 	       sizeof(g_color_buffer_data),
 	       g_color_buffer_data, GL_STATIC_DRAW);
+  
+  glfwSetFramebufferSizeCallback(window,
+	  renderer::FramebufferSizeCallback);
 }
 
 void Uninit(void) {
@@ -109,6 +118,36 @@ void PrintMatrix(const glm::mat4 &m)
 }
 
 int main( void ) {
+
+
+	//------------------------------------------------------
+
+	//Ex 23 GLM:llä matriisi laskemista
+	//glm::mat4 matrix1(1.0f, 0.0f, 2.0f, 2.0f,
+	//				  0.0f, 1.0f, 0.0f, 0.0f,
+	//				  1.0f, 1.0f, 1.0f, 2.0f,
+	//				  0.0f, 0.0f, 1.0f, 0.0f);
+
+	//glm::mat4 matrix2(0.0f, 0.0f, 0.0f, 2.0f,
+	//				  1.0f, 1.0f, 0.0f, 0.0f,
+	//				  1.0f, 1.0f, 0.0f, 2.0f,
+	//				  0.0f, 0.0f, 1.0f, 0.0f);
+
+	//glm::vec4 multiplyVector(3.0f, 4.0f, -2.0f, 1.0f);
+
+	//glm::vec4 xTulos;
+
+	//xTulos = (matrix1 * matrix2) * multiplyVector;
+
+	///*for (int j = 0; j < sizeof(xTulos); j++)
+	//{
+	//	std::cout << xTulos[j] << std::endl;
+	//}*/
+
+	//std::cout << xTulos[0] << ", " << xTulos[1] << ", " << xTulos[2] << ", " << xTulos[3] << std::endl;
+
+	//--------------------------------------------------------
+
 	//Test
 	//------------------------------------------------------
 	
@@ -165,37 +204,8 @@ int main( void ) {
 
 	//------------------------------------------------------
 
-	//------------------------------------------------------
-	
-	//Ex 23 GLM:llä matriisi laskemista
-	//glm::mat4 matrix1(1.0f, 0.0f, 2.0f, 2.0f,
-	//				  0.0f, 1.0f, 0.0f, 0.0f,
-	//				  1.0f, 1.0f, 1.0f, 2.0f,
-	//				  0.0f, 0.0f, 1.0f, 0.0f);
+	std::cout << "\n Ex 30--------------------------------------------------------" << std::endl;
 
-	//glm::mat4 matrix2(0.0f, 0.0f, 0.0f, 2.0f,
-	//				  1.0f, 1.0f, 0.0f, 0.0f,
-	//				  1.0f, 1.0f, 0.0f, 2.0f,
-	//				  0.0f, 0.0f, 1.0f, 0.0f);
-
-	//glm::vec4 multiplyVector(3.0f, 4.0f, -2.0f, 1.0f);
-
-	//glm::vec4 xTulos;
-
-	//xTulos = (matrix1 * matrix2) * multiplyVector;
-
-	///*for (int j = 0; j < sizeof(xTulos); j++)
-	//{
-	//	std::cout << xTulos[j] << std::endl;
-	//}*/
-
-	//std::cout << xTulos[0] << ", " << xTulos[1] << ", " << xTulos[2] << ", " << xTulos[3] << std::endl;
-
-	//system("pause");
-
-	//return 0;
-	//--------------------------------------------------------
-	
 	if (!glfwInit())
 	{
 		fprintf(stderr, "Failed to initialize GLFW\n");
@@ -205,10 +215,11 @@ int main( void ) {
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE,
-		GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	window = glfwCreateWindow(1024, 768,
+	int w = 1024;
+	int h = 768;
+	window = glfwCreateWindow(w, h,
 		"Tutorial 02 - Red triangle", NULL, NULL);
 	if (window == NULL){
 		fprintf(stderr, "Failed to open GLFW window.");
@@ -216,6 +227,8 @@ int main( void ) {
 		return -1;
 	}
 	glfwMakeContextCurrent(window);
+	glfwSetFramebufferSizeCallback(window, renderer::FramebufferSizeCallback);
+	renderer::FramebufferSizeCallback(window, w, h);
 	glewExperimental = true; // Needed for core profile
 	if (glewInit() != GLEW_OK) {
 		fprintf(stderr, "Failed to initialize GLEW\n");
@@ -223,16 +236,60 @@ int main( void ) {
 	}
 
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-	Init();
+
+	renderer::Init(window);
 
 	do{
-		Render();
+		renderer::Render();
 		glfwPollEvents();
 	} while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
 		glfwWindowShouldClose(window) == 0);
 
+
+	renderer::Uninit();
 	glfwTerminate();
+
+	//------------------------------------------------------
+	// TESTI KOLMIO
+
+	//if (!glfwInit())
+	//{
+	//	fprintf(stderr, "Failed to initialize GLFW\n");
+	//	return -1;
+	//}
+
+	//glfwWindowHint(GLFW_SAMPLES, 4);
+	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	//glfwWindowHint(GLFW_OPENGL_PROFILE,
+	//	GLFW_OPENGL_CORE_PROFILE);
+
+	//window = glfwCreateWindow(1024, 768,
+	//	"Tutorial 02 - Red triangle", NULL, NULL);
+	//if (window == NULL){
+	//	fprintf(stderr, "Failed to open GLFW window.");
+	//	glfwTerminate();
+	//	return -1;
+	//}
+	//glfwMakeContextCurrent(window);
+	//glewExperimental = true; // Needed for core profile
+	//if (glewInit() != GLEW_OK) {
+	//	fprintf(stderr, "Failed to initialize GLEW\n");
+	//	return -1;
+	//}
+
+	//glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+	//Init();
+
+	//do{
+	//	Render();
+	//	glfwPollEvents();
+	//} while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
+	//	glfwWindowShouldClose(window) == 0);
+
+	//glfwTerminate();
   
+	//---------------------------------------------------------
 
 	system("pause");
 
