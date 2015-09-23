@@ -5,12 +5,10 @@
 
 layout(location = VERTEX_POSITION) in vec3 vertexPosition_modelspace;
 
-layout(location = TEXTURE_DATA)
-in vec2 vertexUV;
-
 uniform mat4 MVP;
 
-out vec2 UV;
+//layout(location = TEXTURE_DATA)
+//in vec2 vertexUV;
 
 // Input vertex data
 //layout(location = 0) in vec3 vertexPosition_modelspace;
@@ -22,7 +20,8 @@ out vec2 UV;
 void main(){
 
 	gl_Position = MVP * vec4(vertexPosition_modelspace, 1);
-	UV = vertexUV;
+	
+	//UV = vertexUV;
 	
 	//gl_Position.xyz =  vertexPosition_modelspace;
 
