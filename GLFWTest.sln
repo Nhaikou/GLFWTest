@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLFWTest", "GLFWTest\GLFWTest.vcxproj", "{BB1A3B4D-2A1A-4CE3-A32B-11E38D130BBF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuadTree", "QuadTree\QuadTree.vcxproj", "{5B51CF09-C223-4866-BE47-F89FA57ABD0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -15,6 +17,10 @@ Global
 		{BB1A3B4D-2A1A-4CE3-A32B-11E38D130BBF}.Debug|Win32.Build.0 = Debug|Win32
 		{BB1A3B4D-2A1A-4CE3-A32B-11E38D130BBF}.Release|Win32.ActiveCfg = Release|Win32
 		{BB1A3B4D-2A1A-4CE3-A32B-11E38D130BBF}.Release|Win32.Build.0 = Release|Win32
+		{5B51CF09-C223-4866-BE47-F89FA57ABD0C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5B51CF09-C223-4866-BE47-F89FA57ABD0C}.Debug|Win32.Build.0 = Debug|Win32
+		{5B51CF09-C223-4866-BE47-F89FA57ABD0C}.Release|Win32.ActiveCfg = Release|Win32
+		{5B51CF09-C223-4866-BE47-F89FA57ABD0C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
